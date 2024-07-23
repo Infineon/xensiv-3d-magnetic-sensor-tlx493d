@@ -1,0 +1,61 @@
+@startuml 3D Magnetic Library System Diagram Frameworks
+
+    !include <C4/C4_Container>
+
+    System_Boundary(ecosystem, "XENSIV<sup><size:10>TM</size></sup> magnetic position sensor ecosystem") {
+
+        System_Boundary(wrappers, "Corelib interfaces") {
+            Container(arduinoLibrary, "Arduino interface", "C++", "Corelib interface")
+            System(arduino, "Arduino IDE", "[C++, C]")
+            Rel(arduinoLibrary, arduino, "used by")
+
+
+            Container(mpyLibrary, "MPY interface", "C++, C", "Corelib interface")
+            System(mpy, "Micropython", "[C++, C, Python]")
+            Rel(mpyLibrary, mpy, "used by")
+
+
+            Container(mtbLibrary, "MTB interface", "C++, C", "Corelib interface")
+            System(mtb, "ModusToolbox<sup><size:10>TM</size></sup>", "[C++, C]")
+            Rel(mtbLibrary, mtb, "used by")
+
+
+            Container(rpiLibrary, "RPi interface", "C++, C", "Corelib interface")
+            System(rpi, "Raspberry Pi", "[C++, C, Python]")
+            Rel(rpiLibrary, rpi, "used by")
+
+
+       
+            Container(hwInterfaceLibraries, "Hardware interface libraries", "C, C++", "WiringPi, bcm2835, ...")
+
+            Container(hardwareInterfaces, "Hardware interfaces", "C", "")
+
+            System(I2C, "I2C")
+            System(SPI, "SPI")
+
+            Rel(arduino, hardwareInterfaces, "provides")
+            Rel(mpy, hardwareInterfaces, "provides")
+            Rel(mtb, hardwareInterfaces, "provides")
+            Rel(rpi, hardwareInterfaces, "provides")
+
+            Rel_R(hardwareInterfaces, hwInterfaceLibraries, "may use")
+
+            hardwareInterfaces -d-> I2C
+            hardwareInterfaces -d-> SPI
+            }
+ 
+
+        System_Boundary(core, "3D magnetic sensor core") {
+            Container(coreLibrary, "3D magnetic library", "C", "Core library")
+
+            Rel(coreLibrary, hardwareInterfaces, "uses")
+        }
+
+        Rel_U(arduinoLibrary, coreLibrary, "wraps")
+        Rel_U(mpyLibrary, coreLibrary, "wraps")
+        Rel_U(mtbLibrary, coreLibrary, "wraps")
+        Rel_U(rpiLibrary, coreLibrary, "wraps")
+    }
+
+@enduml
+

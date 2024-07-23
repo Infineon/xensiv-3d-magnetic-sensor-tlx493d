@@ -1,0 +1,94 @@
+@startuml
+
+title XENSIV<sup><size:10>TM</size></sup> 3D magnetic sensor generation 1 and 2 reset sequence part 2
+
+binary "SCL" as scl
+binary "SDA" as sda
+concise "State" as state
+concise "Command" as cmd
+
+@2 as :start_begin
+@4 as :start_end
+
+@20 as :stop_begin
+@22 as :stop_end
+
+@0
+scl is 1
+sda is 1
+state is {-}
+cmd is {-}
+
+@2
+sda is 0
+state is "Start"
+cmd is "Reset part 2 (write to 0x00)"
+
+@3
+scl is 0
+
+@4
+scl is 1
+state is "Address"
+
+@5
+scl is 0
+
+@6
+scl is 1
+
+@7
+scl is 0
+
+@8
+scl is 1
+
+@9
+scl is 0
+
+@10
+scl is 1
+
+@11
+scl is 0
+
+@12
+scl is 1
+
+@13
+scl is 0
+
+@14
+scl is 1
+
+@15
+scl is 0
+
+@16
+scl is 1
+
+@17
+scl is 0
+
+@18
+scl is 1
+
+@19
+scl is 0
+
+@20
+sda is 0
+state is "Stop"
+
+@21
+scl is 1
+
+@22
+sda is 1
+state is {-}
+cmd is {-}
+
+highlight :start_begin to :start_end #lightBlue:Start condition
+highlight :stop_begin  to :stop_end  #lightBlue:Stop condition
+
+@enduml

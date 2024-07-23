@@ -1,0 +1,24 @@
+@startuml
+start
+partition Setup {
+    : Initializing the sensor object of sensor 1;
+    -> 500 ms delay to ensure sensor is stable;
+    : Change the address of sensor 1 to A2;
+    -> 500 ms delay to ensure sensor is stable;
+    : Initializing the sensor object of sensor 2;
+    -> 500 ms delay to ensure sensor is stable;
+    : Change the address of sensor 2 to A1;
+    -> 500 ms delay to ensure sensor is stable;
+    : Initializing the sensor object of sensor 3;
+    -> 500 ms delay to ensure sensor is stable;
+}
+partition Loop {
+    while (Sensor is running?) is (true)
+        : Read temperature;
+        : Print temperature value to serial monitor;
+        : Read magnetic values in X, Y, Z;
+        : Print magnetic values to serial monitor;
+    endwhile (false)
+}
+stop
+@enduml

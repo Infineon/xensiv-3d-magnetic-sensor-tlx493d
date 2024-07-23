@@ -1,0 +1,3 @@
+[submodule "src/framework/arduino-magnetic-3d-sensor-tlx493d"]
+	path = src/framework/arduino-magnetic-3d-sensor-tlx493d
+	url = https://bitbucket.vih.infineon.com/scm/xfpinol/arduino-magnetic-3d-sensor-tlx493d.git

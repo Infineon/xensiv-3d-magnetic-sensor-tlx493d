@@ -1,0 +1,6 @@
+r
+h
+loadbin build/mtb-example-xmc-tlx493d-sensors.hex 0x0
+r
+g
+exit

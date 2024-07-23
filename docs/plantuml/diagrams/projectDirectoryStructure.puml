@@ -1,0 +1,116 @@
+@startwbs
+
+title 3d magnetic library directory tree
+
+* sensors (root folder)
+
+** Makefile
+
+** config
+' *** cmake
+' *** devops
+' *** make
+*** src
+
+** doc
+' *** doxygen
+*** plantuml
+**** diagrams
+***** out
+' *** readTheDocs
+
+** examples
+*** arduino
+*** mtb
+**** psoc
+**** xmc
+
+** src
+*** framework
+**** arduino
+**** mtb
+***** psoc
+***** xmc
+
+*** interfaces
+**** c
+**** cpp
+
+*** tlx493d
+
+**** tlx493d_types.h
+**** tlx493d_common_defines.h
+**** tlx493d_common.h
+**** tlx493d_common.c
+
+**** tlx493d_gen_1
+'***** tlx493d_gen_1_common_defines.h
+'***** tlx493d_gen_1_common.h
+'***** tlx493d_gen_1_common.c
+***** TLx493D_A1B6
+****** TLx493D_A1B6_defines.h
+****** TLx493D_A1B6.h
+****** TLx493D_A1B6.c
+
+**** tlx493d_gen_2
+***** tlx493d_gen_2_common_defines.h
+***** tlx493d_gen_2_common.h
+***** tlx493d_gen_2_common.c
+***** TLx493D_A2B6
+****** TLx493D_A2B6_defines.h
+****** TLx493D_A2B6.h
+****** TLx493D_A2B6.c
+***** TLx493D_P2B6
+****** TLx493D_P2B6_defines.h
+****** TLx493D_P2B6.h
+****** TLx493D_P2B6.c
+***** TLx493D_W2B6
+****** TLx493D_W2B6_defines.h
+****** TLx493D_W2B6.h
+****** TLx493D_W2B6.c
+***** TLx493D_W2BW
+****** TLx493D_W2BW_defines.h
+****** TLx493D_W2BW.h
+****** TLx493D_W2BW.c
+
+**** tlx493d_gen_3
+***** tlx493d_gen_3_common_defines.h
+***** tlx493d_gen_3_common.h
+***** tlx493d_gen_3_common.c
+***** TLx493D_P3B6
+****** TLx493D_P3B6_defines.h
+****** TLx493D_P3B6.h
+****** TLx493D_P3B6.c
+***** TLx493D_P3I8
+****** TLx493D_P3I8_defines.h
+****** TLx493D_P3I8.h
+****** TLx493D_P3I8.c
+
+** test
+'*** unit "test on build platform"
+*** unit "unit testing using Unity"
+**** shared
+***** Unity "Unity sources"
+**** interfaces
+***** c
+***** cpp
+**** frameworks
+***** arduino
+***** mtb
+****** xmc
+****** psoc6
+**** tlx493d
+***** TLx493D_A1B6
+
+***** TLx493D_A2B6
+****** TLx493D_A2B6.c "includes TLx493D_A2B6_frameworkIndependentCode.c"
+****** TLx493D_A2B6_needsSensor.c
+***** TLx493D_P2B6
+***** TLx493D_W2B6
+***** TLx493D_W2BW
+
+***** TLx493D_P3B6
+***** TLx493D_P3I8
+
+
+@endwbs

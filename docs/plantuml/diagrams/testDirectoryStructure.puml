@@ -1,0 +1,31 @@
+@startwbs
+
+title 3d magnetic test directory tree
+
+* 3d_magnetic (root folder)
+** test
+'*** unit "test on build platform"
+*** unit "unit testing using Unity"
+**** shared
+***** unity "Unity sources"
+**** interfaces
+***** c
+***** cpp
+**** framework
+***** arduino
+***** mtb
+****** xmc
+****** psoc6
+**** sensors
+***** common
+****** gen_1
+****** gen_2
+****** gen_3
+***** TLE493D_A2B6
+****** TLE493D_A2B6_arduino.c "includes TLE493D_A2B6_frameworkIndependentCode.c"
+****** TLE493D_A2B6_frameworkIndependentCode.c
+***** TLE493D_A2BW
+***** TLE493D_P2B6
+***** TLE493D_W2B6
+
+@endwbs

@@ -1,0 +1,56 @@
+@startuml
+
+title XENSIV<sup><size:10>TM</size></sup> 3D magnetic sensor generation 1 and 2 reset sequence
+
+scale 1 as 30 pixels
+hide time-axis
+
+'clock "SCL" as scl
+concise "Command" as cmd
+
+@0
+cmd is {-}
+
+@1
+cmd is "Prep"
+
+@3
+cmd is "Reset part 1"
+
+@8
+cmd is "Unprep"
+
+@10
+cmd is "Prep"
+
+@12
+cmd is "Reset part 1"
+
+@17
+cmd is "Unprep"
+
+@19
+cmd is "Prep"
+
+@21
+cmd is "Reset part 2"
+
+@26
+cmd is "Unprep"
+
+@28
+cmd is "Prep"
+
+@30
+cmd is "Reset part 2"
+
+@35
+cmd is "Unprep"
+
+@37
+cmd is "Wait 30 us"
+
+@40
+cmd is {-}
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml 3D Magnetic Library Repositories
+
+    !include <C4/C4_Container>
+
+    System_Boundary(ecosystem, "XENSIV<sup><size:10>TM</size></sup> magnetic position sensor ecosystem") {
+
+        System_Boundary(interfaces, "Corelib interfaces") {
+            Container(arduinoLibrary, "Arduino interface", "C++", "Corelib interface")
+            System(arduino, "Arduino IDE", "[C++, C]")
+            Rel(arduinoLibrary, arduino, "used by")
+
+
+            Container(mpyLibrary, "MPY interface", "C++, C", "Corelib interface")
+            System(mpy, "Micropython", "[C++, C, Python]")
+            Rel(mpyLibrary, mpy, "used by")
+
+
+            Container(mtbLibrary, "MTB interface", "C++, C", "Corelib interface")
+            System(mtb, "ModusToolbox<sup><size:10>TM</size></sup>", "[C++, C]")
+            Rel(mtbLibrary, mtb, "used by")
+
+
+            Container(rpiLibrary, "RPi interface", "C++, C", "Corelib interface")
+            System(rpi, "Raspberry Pi", "[C++, C, Python]")
+            Rel(rpiLibrary, rpi, "used by")
+            }
+ 
+
+        System_Boundary(core, "Core library") {
+            Container(coreLibrary, "Core library", "C", "Sensor core library")
+        }
+
+
+        System_Boundary(repos, "Repositories") {
+            System_Ext(core_repo, "bitbucket / github / gitlab", "Core library")
+            System_Ext(arduino_repo, "bitbucket / github / gitlab", "Arduino specific parts")
+            System_Ext(mpy_repo, "bitbucket / github / gitlab", "Micropython specific parts")
+            System_Ext(mtb_repo, "bitbucket / github / gitlab", "MTB specific parts")
+            System_Ext(rpi_repo, "bitbucket / github / gitlab", "RPi specific parts")
+        }
+
+        Rel_D(core_repo, coreLibrary, "stores")
+        Rel_D(arduino_repo, arduinoLibrary, "stores")
+        Rel_D(mpy_repo, mpyLibrary, "stores")
+        Rel_D(mtb_repo, mtbLibrary, "stores")
+        Rel_D(rpi_repo, rpiLibrary, "stores")
+
+        Rel_L(coreLibrary, interfaces, "used as submodule by")
+    }
+
+@enduml
+
