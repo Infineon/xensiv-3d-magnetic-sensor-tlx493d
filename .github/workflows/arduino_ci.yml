@@ -1,0 +1,177 @@
+# This is the main workflow file for the Arduino CI
+name: Arduino CI
+
+# on which event should we start push, pull request or schedule dispatches
+on:
+  - push
+  - pull_request
+
+# This template runs multiple workflows
+jobs:
+
+  #############################################################################
+  # This action sets common variables for the flow and
+  # identifies the examples to compile
+  setup:
+
+    # we run this on self hosted runner, use labels to be more specific
+    # add specific names if there are some, otherwise self-hosted, X64, Linux are the default ones
+    runs-on:
+      - self-hosted
+      - X64
+      - Linux
+
+    steps:
+      # checkout the latest github action code
+      - name: Checkout actions
+        uses: actions/checkout@v4
+
+      # checkout the latest arduino-cli compiler
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@master
+
+      # Fetch
+      - id: startup 
+        run: |
+          cd /opt/runner_support/
+          REPO="$(basename "$GITHUB_REPOSITORY")"
+
+          serials=$(echo $(./py_checkusb.py --repo ${REPO} --list serial --json) | jq ".\"${REPO}\"" --compact-output )
+          echo "serials=${serials}"  >> $GITHUB_OUTPUT
+
+          ./py_checkusb.py --switch repo --namelist $REPO --onoff on
+
+    # set the output variables for use in the next job
+    outputs:
+      serials: ${{ steps.startup.outputs.serials }}
+
+
+  #############################################################################
+  # The build job compiles the sample code for different boards
+  make:
+
+    # wait on first setup run before starting main function
+    needs: [setup]
+
+    # we run this on self hosted runner, use labels to be more specific
+    # add specific names if there are some, otherwise self-hosted, X64, Linux are the default ones
+    runs-on:
+      - self-hosted
+      - X64
+      - Linux
+
+    # do not stop if a single job fails
+    continue-on-error: true
+
+    # which combination of sample code and boards should run
+    # for this example of 2 sample codes and 3 boards a total of 2x3=6 runners have to work.
+    # if we have only 4 runner then these 4 are started and the last 2 are waiting until they can start
+    strategy:
+
+      # List of all serials in the lib to compile
+      matrix: 
+        serials: ${{ fromJSON(needs.setup.outputs.serials) }}
+
+    # These are the steps which should run for each combination of fqbn and example code
+    steps:
+      # checkout the latest arduino-cli compiler
+      - name: Setup Arduino CLI
+        uses: arduino/setup-arduino-cli@master
+
+      - name: Environment
+        run: |
+          cd /opt/runner_support/
+
+          REPO="$(basename "$GITHUB_REPOSITORY")"
+          SERIALID=${{ matrix.serials }}
+          PORT=$(  echo $(./py_checkusb.py --serial ${SERIALID} --list comport --json) | jq ".\"${SERIALID}\"" -r)
+          TYPE=$(  echo $(./py_checkusb.py --serial ${SERIALID} --list type    --json) | jq ".\"${SERIALID}\"|.[0]" -r)
+          DEVICE=$(echo $(./py_checkusb.py --serial ${SERIALID} --list device  --json) | jq ".\"${SERIALID}\"|.[0]" -r)
+          SENSOR=$(echo $TYPE | tr "_" "\n" | tail -1)
+          FQBN=`tr '.' ':' <<<"${DEVICE}"`
+
+          echo "repo=$REPO" >> $GITHUB_ENV
+          echo "serials=$SERIALID" >> $GITHUB_ENV
+          echo "port=$PORT" >> $GITHUB_ENV
+          echo "type=$TYPE" >> $GITHUB_ENV
+          echo "fqbn=$FQBN" >> $GITHUB_ENV
+          echo "device=$DEVICE" >> $GITHUB_ENV
+          echo "sensor=$SENSOR" >> $GITHUB_ENV
+
+          echo "Repository name:     " $REPO
+          echo "Device Serial ID:    " $SERIALID
+          echo "Port found:          " $PORT
+          echo "Device Type:         " $TYPE
+          echo "FQBN:                " $FQBN
+          echo "Device:              " $DEVICE
+          echo "Sensor name:         " $SENSOR
+
+      # Flashes the compiled HEX file onto the selected MCU
+      # REPO: the name of the repository which is also the link name
+      # HEXNAME: the board depended name of the HEX files
+      # SERIALID: the unique serial number of the hardware board according the board2port.yaml
+      # DEVICE: the flashing device according the board2port.yaml
+      # PORT: real PORT name of the attached hardware based on the SERIALID
+      # use the python based XMC flasher
+      - name: Flash
+        run: |
+          export TMPDIR=$HOME/tmp
+          mkdir -p $TMPDIR
+
+          if [ "${{ env.port }}" != 'null' ]; then
+            mkdir -p ~/.arduino15/packages/
+            ln -sfn /opt/XMC-for-Arduino $HOME/.arduino15/packages/Infineon
+            mkdir -p "$HOME/Arduino/libraries"
+            ln -sf $GITHUB_WORKSPACE/ $HOME/Arduino/libraries/${{ env.repo }}
+            cd $HOME/Arduino/libraries/${{ env.repo }}
+            mkdir -p ./build
+            make -f Makefile.arduino.mk UNITY_PATH=/opt/runner_support/Unity FQBN=${{ env.fqbn }} PORT=${{ env.port }} ${{ env.sensor }}_needsSensor flash
+          else
+            echo "No port found"
+          fi
+
+      # Monitoring the serial output from the attached and flashed hardware and collecting
+      # ERROR, Warning and statistical data for reporting
+      - name: Monitor
+        run: |
+          if [ "${{ env.port }}" != 'null' ]; then
+            echo "need to monitor"
+            timeout 1m /opt/runner_support/py_console.py \
+                    --port ${{ env.port }} \
+                    --baud 115200 \
+                    --report ~/Arduino/libraries/${{ env.repo }}/build/build/${{ env.device }}/report.json
+          else
+            echo "No port found"
+          fi
+
+      # Upload the compiled HEX files to the GitHub server
+      - name: Artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.sensor }}_${{ env.serials }}
+          path: ~/Arduino/libraries/${{ env.repo }}/build/build/${{ env.device }}/*
+          if-no-files-found: ignore
+
+
+  #############################################################################
+  # Switch off the HIL after all tests are done
+  post:
+
+    # we run this no matter if before fails
+    if: always()
+    # wait on first setup run before starting main function
+    needs: [setup, make]
+
+    # we run this on self hosted runner, use labels to be more specific
+    # add specific names if there are some, otherwise self-hosted, X64, Linux are the default ones
+    runs-on:
+      - self-hosted
+      - X64
+      - Linux
+
+    steps:
+      - name: Switch off HIL
+        run: |
+          cd /opt/runner_support/
+          REPO="$(basename "$GITHUB_REPOSITORY")"
+          ./py_checkusb.py --switch repo --namelist $REPO --onoff off
