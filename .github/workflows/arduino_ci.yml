@@ -120,7 +120,9 @@ jobs:
 
           if [ "${{ env.port }}" != 'null' ]; then
             mkdir -p ~/.arduino15/packages/
-            ln -sfn /opt/XMC-for-Arduino $HOME/.arduino15/packages/Infineon
+            if [ ! -d "$HOME/.arduino15/packages/Infineon" ]; then
+              ln -sn /opt/XMC-for-Arduino/hardware $HOME/.arduino15/packages/Infineon
+            fi
             mkdir -p "$HOME/Arduino/libraries"
             ln -sf $GITHUB_WORKSPACE/ $HOME/Arduino/libraries/${{ env.repo }}
             cd $HOME/Arduino/libraries/${{ env.repo }}
