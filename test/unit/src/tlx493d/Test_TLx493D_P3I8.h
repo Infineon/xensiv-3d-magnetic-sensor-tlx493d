@@ -6,7 +6,7 @@
 
 #include "TLx493D_P3I8_defines.h"
 #include "TLx493D_P3I8_enums.h"
-#include "TLx493D_P3I8.h"
+#include "corelib/tlx493d/gen_3/TLx493D_P3I8/TLx493D_P3I8.h"
 
 
 void TLx493D_P3I8_suiteSetUp(void);

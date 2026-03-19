@@ -10,7 +10,7 @@ extern "C" {
 
 
 /** project c includes. */
-#include "tlx493d_types.h"
+#include "corelib/tlx493d/tlx493d_types.h"
 
 
 /**

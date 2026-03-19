@@ -3,7 +3,7 @@
 
 #include "TLx493D_W2BW_defines.h"
 #include "TLx493D_W2BW_enums.h"
-#include "TLx493D_W2BW.h"
+#include "corelib/tlx493d/gen_2/TLx493D_W2BW/TLx493D_W2BW.h"
 
 
 void TLx493D_W2BW_needsSensor_suiteSetup(void);

@@ -5,20 +5,20 @@
 #include <string.h>
 
 /** project c includes. */
-#include "CommunicationInterface.h"
-#include "Logger.h"
+#include "corelib/interfaces/c/CommunicationInterface.h"
+#include "corelib/interfaces/c/Logger.h"
 
-#include "tlx493d_types.h"
-#include "tlx493d_common_defines.h"
-#include "tlx493d_common.h"
+#include "corelib/tlx493d/tlx493d_types.h"
+#include "corelib/tlx493d/tlx493d_common_defines.h"
+#include "corelib/tlx493d/tlx493d_common.h"
 
-#include "tlx493d_gen_2_common_defines.h"
-#include "tlx493d_gen_2_common.h"
+#include "corelib/tlx493d/gen_2/tlx493d_gen_2_common_defines.h"
+#include "corelib/tlx493d/gen_2/tlx493d_gen_2_common.h"
 
 /** sensor specicifc includes. */
 #include "TLx493D_W2BW_defines.h"
 #include "TLx493D_W2BW_enums.h"
-#include "TLx493D_W2BW.h"
+#include "corelib/tlx493d/gen_2/TLx493D_W2BW/TLx493D_W2BW.h"
 
 
 static TLx493D_Register_t TLx493D_W2BW_regDef[] = {
@@ -299,7 +299,7 @@ bool TLx493D_W2BW_setIICAddress(TLx493D_t *sensor, TLx493D_IICAddressType_t addr
 
 
 bool TLx493D_W2BW_enable1ByteReadMode(TLx493D_t *sensor) {
-    return tlx493d_gen_2_set1ByteReadMode(sensor, W2BW_PR_e, W2BW_FP_e, W2BW_PRD_e, 1);
+    return tlx493d_gen_2_set1ByteReadMode(sensor, W2BW_IICADR_e, W2BW_PR_e, W2BW_FP_e, W2BW_PRD_e, 1);
 }
 
 
