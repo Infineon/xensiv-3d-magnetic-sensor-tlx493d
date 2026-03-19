@@ -6,15 +6,15 @@
 #include <string.h>
 
 /** project c includes. */
-#include "corelib/interfaces/c/CommunicationInterface.h"
-#include "corelib/interfaces/c/Logger.h"
+#include "../../interfaces/c/CommunicationInterface.h"
+#include "../../interfaces/c/Logger.h"
 
-#include "corelib/tlx493d/tlx493d_types.h"
-#include "corelib/tlx493d/tlx493d_common_defines.h"
-#include "corelib/tlx493d/tlx493d_common.h"
+#include "../tlx493d_types.h"
+#include "../tlx493d_common_defines.h"
+#include "../tlx493d_common.h"
 
-#include "corelib/tlx493d/gen_2/tlx493d_gen_2_common_defines.h"
-#include "corelib/tlx493d/gen_2/tlx493d_gen_2_common.h"
+#include "tlx493d_gen_2_common_defines.h"
+#include "tlx493d_gen_2_common.h"
 
 
 void tlx493d_gen_2_calculateRawTemperature(TLx493D_t *sensor, uint8_t tempMSBBF, uint8_t tempLSBBF, int16_t *temperature) {

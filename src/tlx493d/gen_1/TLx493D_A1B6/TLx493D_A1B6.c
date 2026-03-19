@@ -6,16 +6,17 @@
 #include <string.h>
 
 /** project c includes. */
-#include "corelib/interfaces/c/CommunicationInterface.h"
-#include "corelib/interfaces/c/Logger.h"
-#include "corelib/tlx493d/tlx493d_types.h"
-#include "corelib/tlx493d/tlx493d_common_defines.h"
-#include "corelib/tlx493d/tlx493d_common.h"
+#include "../../../interfaces/c/CommunicationInterface.h"
+#include "../../../interfaces/c/Logger.h"
+
+#include "../../tlx493d_types.h"
+#include "../../tlx493d_common_defines.h"
+#include "../../tlx493d_common.h"
 
 /** sensor specicifc includes. */
 #include "TLx493D_A1B6_defines.h"
 #include "TLx493D_A1B6_enums.h"
-#include "corelib/tlx493d/gen_1/TLx493D_A1B6/TLx493D_A1B6.h"
+#include "TLx493D_A1B6.h"
 
 
 /** register enums. */
