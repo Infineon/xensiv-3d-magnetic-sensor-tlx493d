@@ -15,8 +15,8 @@
 
 
 /** project c includes. */
-#include "corelib/tlx493d/tlx493d_types.h"
-#include "corelib/interfaces/c/tlx493d.h"
+#include "../../tlx493d/tlx493d_types.h"
+#include "../c/tlx493d.h"
 
 
 namespace ifx {

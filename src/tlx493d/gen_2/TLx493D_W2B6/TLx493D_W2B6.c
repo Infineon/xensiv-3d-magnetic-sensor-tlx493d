@@ -5,20 +5,20 @@
 #include <string.h>
 
 /** project c includes. */
-#include "corelib/interfaces/c/CommunicationInterface.h"
-#include "corelib/interfaces/c/Logger.h"
+#include "../../../interfaces/c/CommunicationInterface.h"
+#include "../../../interfaces/c/Logger.h"
 
-#include "corelib/tlx493d/tlx493d_types.h"
-#include "corelib/tlx493d/tlx493d_common_defines.h"
-#include "corelib/tlx493d/tlx493d_common.h"
+#include "../../tlx493d_types.h"
+#include "../../tlx493d_common_defines.h"
+#include "../../tlx493d_common.h"
 
-#include "corelib/tlx493d/gen_2/tlx493d_gen_2_common_defines.h"
-#include "corelib/tlx493d/gen_2/tlx493d_gen_2_common.h"
+#include "../tlx493d_gen_2_common_defines.h"
+#include "../tlx493d_gen_2_common.h"
 
 /** sensor specicifc includes. */
 #include "TLx493D_W2B6_defines.h"
 #include "TLx493D_W2B6_enums.h"
-#include "corelib/tlx493d/gen_2/TLx493D_W2B6/TLx493D_W2B6.h"
+#include "TLx493D_W2B6.h"
 
 
 static TLx493D_Register_t TLx493D_W2B6_regDef[] = {

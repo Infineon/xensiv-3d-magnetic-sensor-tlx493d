@@ -5,14 +5,16 @@
 #include <string.h>
 
 /** project c includes. */
-#include "corelib/tlx493d/tlx493d_types.h"
-#include "corelib/tlx493d/tlx493d_common_defines.h"
-#include "corelib/tlx493d/tlx493d_common.h"
-#include "corelib/interfaces/c/CommunicationInterface.h"
-#include "corelib/interfaces/c/Logger.h"
+#include "../tlx493d_types.h"
+#include "../tlx493d_common_defines.h"
+#include "../tlx493d_common.h"
 
-#include "corelib/tlx493d/gen_3/tlx493d_gen_3_common_defines.h"
-#include "corelib/tlx493d/gen_3/tlx493d_gen_3_common.h"
+#include "../../interfaces/c/CommunicationInterface.h"
+#include "../../interfaces/c/Logger.h"
+
+#include "tlx493d_gen_3_common_defines.h"
+#include "tlx493d_gen_3_common.h"
+
 static void tlx493d_gen_3_shiftDataInRegisters(TLx493D_t *sensor, uint8_t channelSaveBF) {
     uint8_t channel = tlx493d_common_returnBitfield(sensor, channelSaveBF);
 
