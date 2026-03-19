@@ -6,12 +6,12 @@
 #include <string.h>
 
 /** project c includes. */
-#include "tlx493d_types.h"
-#include "tlx493d_common_defines.h"
-#include "tlx493d_common.h"
-#include "tlx493d.h"
-#include "CommunicationInterface.h"
-#include "Logger.h"
+#include "corelib/tlx493d/tlx493d_types.h"
+#include "corelib/tlx493d/tlx493d_common_defines.h"
+#include "corelib/tlx493d/tlx493d_common.h"
+#include "corelib/interfaces/c//tlx493d.h"
+#include "corelib/interfaces/c/CommunicationInterface.h"
+#include "corelib/interfaces/c/Logger.h"
 
 
 /***
