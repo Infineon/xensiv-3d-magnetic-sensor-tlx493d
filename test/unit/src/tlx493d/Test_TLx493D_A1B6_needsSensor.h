@@ -3,7 +3,7 @@
 
 #include "TLx493D_A1B6_defines.h"
 #include "TLx493D_A1B6_enums.h"
-#include "TLx493D_A1B6.h"
+#include "corelib/tlx493d/gen_1/TLx493D_A1B6/TLx493D_A1B6.h"
 
 
 void TLx493D_A1B6_needsSensor_suiteSetup(void);

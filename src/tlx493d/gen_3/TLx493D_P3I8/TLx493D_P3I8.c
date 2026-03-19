@@ -5,20 +5,18 @@
 #include <string.h>
 
 /** project c includes. */
-#include "CommunicationInterface.h"
-#include "Logger.h"
+#include "corelib/interfaces/c/CommunicationInterface.h"
+#include "corelib/interfaces/c/Logger.h"
 
-#include "tlx493d_types.h"
-#include "tlx493d_common_defines.h"
-#include "tlx493d_common.h"
+#include "corelib/tlx493d/tlx493d_types.h"
+#include "corelib/tlx493d/tlx493d_common_defines.h"
+#include "corelib/tlx493d/tlx493d_common.h"
 
-#include "tlx493d_gen_3_common_defines.h"
-#include "tlx493d_gen_3_common.h"
-
-/** sensor specicifc includes. */
+#include "corelib/tlx493d/gen_3/tlx493d_gen_3_common_defines.h"
+#include "corelib/tlx493d/gen_3/tlx493d_gen_3_common.h"/** sensor specicifc includes. */
 #include "TLx493D_P3I8_defines.h"
 #include "TLx493D_P3I8_enums.h"
-#include "TLx493D_P3I8.h"
+#include "corelib/tlx493d/gen_3/TLx493D_P3I8/TLx493D_P3I8.h"
 
 
 static TLx493D_Register_t TLx493D_P3I8_regDef[] = {
