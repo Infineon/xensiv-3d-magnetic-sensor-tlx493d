@@ -6,7 +6,7 @@
 
 
 /** project c includes. */
-#include "corelib/tlx493d/tlx493d_types.h"
+#include "../tlx493d_types.h"
 
 
 #ifdef __cplusplus

@@ -25,7 +25,7 @@ extern "C" {
 #include <stdarg.h>
 
 /** project c includes. */
-#include "corelib/tlx493d/tlx493d_types.h"
+#include "../../tlx493d/tlx493d_types.h"
 
 #endif
 

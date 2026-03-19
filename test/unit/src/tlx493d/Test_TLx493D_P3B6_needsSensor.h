@@ -3,7 +3,7 @@
 
 #include "TLx493D_P3B6_defines.h"
 #include "TLx493D_P3B6_enums.h"
-#include "corelib/tlx493d/gen_3/TLx493D_P3B6/TLx493D_P3B6.h"
+#include "TLx493D_P3B6.h"
 
 
 void TLx493D_P3B6_needsSensor_suiteSetup(void);
