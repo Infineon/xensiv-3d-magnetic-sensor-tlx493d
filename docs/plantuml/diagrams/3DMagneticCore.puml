@@ -1,0 +1,64 @@
+@startuml 3DMagneticCore
+
+    !include <C4/C4_Container>
+
+    AddRelTag("async", $textColor=$ARROW_COLOR, $lineColor=$ARROW_COLOR, $lineStyle=DashedLine())
+    AddBoundaryTag("core", $bgColor="#FEFECE")
+    AddBoundaryTag("coreInterface", $bgColor="Moccasin")
+
+    scale max 1400 width
+    caption \n\n=**XENSIV<sup><size:10>TM</size></sup> 3D magnetic sensor core library and interface hierarchy**\n\n
+
+    Boundary(coreEcosystem, "<b>XENSIV<sup><size:10>TM</size></sup> 3D magnetic sensor core library and interface hierarchy</b>\n") {
+        Boundary(coreIF, "<b>Core 3D magnetic library</b>\n", $tags="core") {
+            Container(coreIFFiles, "Core 3D magnetic interface\n", "Delegate task to specific device", "[C]")
+
+            Boundary(coreSensorBlock, "<b>Sensor specific implementations</b>\n") {
+                Container(coreA1b6, "TLE493D_A1B6\n", "Sensor related function definitions and register setup", "[C]")
+                Container(coreA2b6, "TLE493D_A2B6\n", "Sensor related function definitions and register setup", "[C]")
+                Container(coreP2b6, "TLE493D_P2B6\n", "Sensor related function definitions and register setup", "[C]")
+                Container(coreW2b6, "TLE493D_W2B6\n", "Sensor related function definitions and register setup", "[C]")
+                Container(coreEtc, "...\n", "Sensor related function definitions and register setup", "[C]")
+
+                Rel(coreIFFiles, coreA1b6, "delegates")
+                Rel(coreIFFiles, coreA2b6, "delegates")
+                Rel(coreIFFiles, coreP2b6, "delegates")
+                Rel(coreIFFiles, coreW2b6, "delegates")
+                Rel(coreIFFiles, coreEtc, "delegates")
+            }
+
+            Boundary(coreCommon_code, "<b>Common code</b>\n") {
+                Container(coreGen2, "Gen. 2 common code\n", "Define code common to generation 2", "[C]")
+                Container(coreGen3, "Gen. 3 common code\n", "Define code common to generation 3", "[C]")
+                Container(coreCommon, "Generic common code\n", "Define code common to all generations", "[C]")
+
+                Rel(coreGen2, coreCommon, "uses")
+                Rel(coreGen3, coreCommon, "uses")
+            }
+
+            Rel(coreSensorBlock, coreCommon_code, "use")
+            coreP2b6 -[hidden]down- coreCommon_code
+        }
+
+        Boundary(coreFramework, "<b>Framework specific</b>\n<b>interfaces</b>\n\n[Arduino, MTB, ...]\n", $tags="coreInterface") {
+            Container(coreBscIF, "Board support interface\n", "Uses GPIOs to power on/off boards, handle chip select", "[C]")
+            Container(coreComLibIF, "Communication library interface\n", "Protocols I2C, SPI, ...", "[C]")
+            Container(coreLoggerIF, "Logger interface\n", "Standard IO, ...", "[C]")
+
+            Rel(coreComLibIF, coreBscIF, "uses [SPI only]", $tags="async")
+            coreBscIF -[hidden]down- coreComLibIF
+            coreComLibIF -[hidden]down- coreLoggerIF
+        }
+
+
+        coreSensorBlock -[hidden]right- coreBscIF
+        Rel(coreSensorBlock, coreComLibIF, "use")
+        Rel(coreSensorBlock, coreLoggerIF, "use")
+        coreComLibIF -[hidden]right- coreSensorBlock
+        coreComLibIF -[hidden]right- coreSensorBlock
+    }
+
+    HIDE_STEREOTYPE()
+
+@enduml
+

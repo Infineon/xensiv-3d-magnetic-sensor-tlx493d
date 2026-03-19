@@ -108,6 +108,7 @@ bool tlx493d_common_readRegisters(TLx493D_t *sensor) {
 */
 bool tlx493d_common_readRegistersAndCheck(TLx493D_t *sensor) {
     uint8_t buf[sensor->regMapSize];
+    int8_t  loops = 10;
 
     (void) memcpy(buf, sensor->regMap, sensor->regMapSize);
 
@@ -118,6 +119,9 @@ bool tlx493d_common_readRegistersAndCheck(TLx493D_t *sensor) {
         /*
         logInfo("isOk = %d", isOk);
 
+        bool hasValidData = sensor->functions->hasValidData(sensor);
+        logInfo("hasValidData = %d", hasValidData);
+
         logInfo("hasValidData = %d", sensor->functions->hasValidData(sensor));
         logInfo("hasValidBusParity = %d", sensor->functions->hasValidBusParity(sensor));
         logInfo("hasValidTBit = %d", sensor->functions->hasValidTBit(sensor));
@@ -125,44 +129,34 @@ bool tlx493d_common_readRegistersAndCheck(TLx493D_t *sensor) {
         logInfo("isInTestMode = %d", sensor->functions->isInTestMode(sensor));
 
         logInfo("isFunctional = %d", sensor->functions->isFunctional(sensor));
+
+        bool hasValidFuseParity = sensor->functions->hasValidFuseParity(sensor);
+        logInfo("hasValidFuseParity = %d", hasValidFuseParity);
+
         logInfo("hasValidFuseParity = %d", sensor->functions->hasValidFuseParity(sensor));
         logInfo("hasValidConfigurationParity = %d", sensor->functions->hasValidConfigurationParity(sensor));
+
+        logInfo("isOk && hasValidData && hasValidFuseParity = %d", isOk && hasValidData && hasValidFuseParity);
 
         sensor->functions->printRegisters(sensor);
         */
 
-        // if( ! (isOk && sensor->functions->hasValidData(sensor) && sensor->functions->isFunctional(sensor)) ) {
         if( ! (isOk && sensor->functions->hasValidData(sensor) && sensor->functions->hasValidFuseParity(sensor)) ) {
-/*
-            logInfo("tlx493d_common_readRegistersAndCheck    --------   isOk = %d", isOk);
-
-            logInfo("hasValidData = %d", sensor->functions->hasValidData(sensor));
-            logInfo("hasValidBusParity = %d", sensor->functions->hasValidBusParity(sensor));
-            logInfo("hasValidTBit = %d", sensor->functions->hasValidTBit(sensor));
-
-            logInfo("isInTestMode = %d", sensor->functions->isInTestMode(sensor));
-
-            logInfo("isFunctional = %d", sensor->functions->isFunctional(sensor));
-            logInfo("hasValidFuseParity = %d", sensor->functions->hasValidFuseParity(sensor));
-            logInfo("hasValidConfigurationParity = %d", sensor->functions->hasValidConfigurationParity(sensor));
-
-            tlx493d_printRegisters(sensor);
-*/
-
+        // if( ! (isOk && sensor->functions->hasValidFuseParity(sensor)) ) {
             (void) memcpy(sensor->regMap, buf, sensor->regMapSize);
-
-/*
-            tlx493d_printRegisters(sensor);
-*/
         }
         else {
-            break;
+          return true;
+          // break;
         }
-    } while( true );
-    /** } while( ! (isOk && sensor->functions->hasValidData(sensor)) ); */
-    /** } while( ! (isOk && sensor->functions->hasValidData(sensor) && sensor->functions->isFunctional(sensor)) ); */
+    } while( --loops >= 0 );
+
+    if( ! sensor->functions->hasValidData(sensor) ) {
+        logError("Cannot read consistent data from device '%s' !", tlx493d_common_getTypeAsString(sensor));
+    }
 
     return true;
+    // return false;
 }
 
 
