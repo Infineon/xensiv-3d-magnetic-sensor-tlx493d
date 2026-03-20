@@ -6,12 +6,12 @@
 #include <string.h>
 
 /** project c includes. */
-#include "../../interfaces/c/CommunicationInterface.h"
-#include "../../interfaces/c/Logger.h"
+#include "CommunicationInterface.h"
+#include "Logger.h"
 
-#include "../tlx493d_types.h"
-#include "../tlx493d_common_defines.h"
-#include "../tlx493d_common.h"
+#include "tlx493d_types.h"
+#include "tlx493d_common_defines.h"
+#include "tlx493d_common.h"
 
 #include "tlx493d_gen_2_common_defines.h"
 #include "tlx493d_gen_2_common.h"
