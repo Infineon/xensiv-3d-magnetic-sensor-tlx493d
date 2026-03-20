@@ -10,9 +10,9 @@
 #include "tlx493d_common_defines.h"
 #include "tlx493d_common.h"
 
-#include "../interfaces/c/tlx493d.h"
-#include "../interfaces/c/CommunicationInterface.h"
-#include "../interfaces/c/Logger.h"
+#include "tlx493d.h"
+#include "CommunicationInterface.h"
+#include "Logger.h"
 
 
 /***

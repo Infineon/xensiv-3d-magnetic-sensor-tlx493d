@@ -7,7 +7,7 @@
 #include <stdint.h>
 
 /** project c includes. */
-#include "../../tlx493d_types.h"
+#include "tlx493d_types.h"
 
 
 #ifdef __cplusplus
